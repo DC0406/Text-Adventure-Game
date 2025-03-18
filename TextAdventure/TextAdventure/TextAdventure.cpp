@@ -72,7 +72,7 @@ int main() {
 
 
     //Game loop - Tells player where they are and where they can go
-    while (true) {
+    while (torchDurability > 0) {
         cout << "========================================" << endl;
         cout << "You are in the " << currentLocation->getName() << endl;
         cout << currentLocation->getDescription() << endl;
@@ -84,6 +84,16 @@ int main() {
         }
         cout << ">>>";
         cin >> userinput;
+
+        // Ensures the program does not get stuck in a loop if an incorrect input is entered 
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            system("cls");
+            cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n";
+            continue;
+        }
+
         if (userinput >= 0 && userinput < currentLocation->getPathways().size()) {
             currentLocation = currentLocation->getPathways()[userinput];
             system("cls");
@@ -96,63 +106,29 @@ int main() {
 
 
         // Torch (active)
-        while (torchDurability > 0) {
-            cout << "Torch durability: " << torchDurability << "% \n";
+        cout << "Torch durability: " << torchDurability << "% \n";
 
 
-            //Ends the game if the torch is depleted
-            if (torchDurability <= 0) {
-                cout << "Your torch flickers one last time and goes out, leaving you in complete darkness. \n";
-                cout << "Without light, you can no longer continue your adventure. \n";
-                cout << "Game Over.";
-                break;
-            }
-
-
-
-
-
-
-
-
-            // Ensures the program does not get stuck in a loop if an incorrect input is entered 
-            int choice;
-            if (!(cin >> choice)) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\\n');
-                cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n";
-                continue;
-
-            }
-
-
-            // Reduces torch durability after each choice
-            torchDurability -= 5;
-
-
-
-            cout << "The adventure continues... \n";
-
-
-
-
-
-
-
-
+        //Ends the game if the torch is depleted
+        if (torchDurability <= 0) {
+            cout << "Your torch flickers one last time and goes out, leaving you in complete darkness. \n";
+            cout << "Without light, you can no longer continue your adventure. \n";
+            cout << "Game Over.";
+            break;
         }
 
 
+        
+        
+        
+
+        // Reduces torch durability after each choice
+        torchDurability -= 5;
+
+        cout << "The adventure continues... \n";
 
     }
-
     return 0;
-
-
-
-
-
-
 }
 
 
