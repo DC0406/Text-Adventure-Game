@@ -72,7 +72,7 @@ int main() {
 
 
     //Game loop - Tells player where they are and where they can go
-    while (torchDurability > 0) {
+    while(true) {
         cout << "========================================" << endl;
         cout << "You are in the " << currentLocation->getName() << endl;
         cout << currentLocation->getDescription() << endl;
@@ -91,6 +91,12 @@ int main() {
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
             system("cls");
             cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n";
+            cout << "What shall you do?:" << endl;
+            for (int i = 0; i < currentLocation->getPathways().size(); i++) {
+                cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
+            }
+            cout << ">>>";
+            cin >> userinput;
             continue;
         }
 
@@ -102,6 +108,12 @@ int main() {
         else {
             system("cls");
             cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n" << endl;
+            cout << "What shall you do?:" << endl;
+            for (int i = 0; i < currentLocation->getPathways().size(); i++) {
+                cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
+            }
+            cout << ">>>";
+            cin >> userinput;
         }
 
 
