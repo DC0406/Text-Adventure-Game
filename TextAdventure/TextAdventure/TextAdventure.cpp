@@ -4,13 +4,14 @@
 #include "Location.h"
 using namespace std;
 
-string name;
+
 
 
 int main() {
 
+    string name;
+    bool hasIdol = false;
 
-    
     int torchDurability = 100; // Torch durability
 
     // Title Art
@@ -30,17 +31,17 @@ int main() {
     cout << "                                                                                             48                        @%                          88                 @%                                                           @%    \n";
     cout << "                                                                                             '8                      :\"                            \"\"               :\"                                                           :\"       \n";
 
-    //Locations
+    // Locations
     Location entranceChamber = Location("Entrance Chamber", "A shrill cold passes through you, chilling you to the bones.", "Go to the Entrance Chamber");
     Location queensChamber = Location("Queen's Chamber", "You traverse a narrow passageway leading to the Queen's Chamber, the air is thick with mystery and the walls seem to whisper secrets of ancient royalty.", "Go to the Queen's Chamber.");
     Location grandGallery = Location("Grand Gallery", "Its towering walls stretch above you, echoing the footsteps of those long gone, a sense of wonder and awe fills you.", "Go to the Grand Gallery.");
     Location subterraneanChamber = Location("Subterranean Chamber", "You descend into the depths of the pyramid, reaching the Subterranean Chamber, it feels as though something ancient watches you from the shadows.", "Go to the Subterranean Chamber.");
     Location kingsChamberHallway = Location("hallway to the King's Chamber", "Some of the floor tiles seem out of place, could there be a trap lying ahead?", "Go to the hallway to the King's Chamber.");
-    Location kingsChamberDoor = Location("doorway to the King's Chamber", "A pedestal is laid bare before you, you think to yourself: Was the idol in the Queen's Chamber meant for this?", "Go to the doorway of the King's Chamber.");
+    Location kingsChamberDoor = Location("doorway to the King's Chamber", "A pedestal is laid bare before you, you think to yourself: Was there anything in the Queen's Chamber meant for this?", "Go to the doorway of the King's Chamber.");
     Location kingsChamber = Location("King's Chamber", "The door opens to reveal the mounds of treasure left behind by the pharaoph.", "Congratulations " + name + " You win, enjoy your new-found riches! Game over.");
 
 
-    //Pathways between locations
+    // Pathways between locations
     entranceChamber.addPathway(queensChamber);
     entranceChamber.addPathway(grandGallery);
     entranceChamber.addPathway(subterraneanChamber);
@@ -71,19 +72,52 @@ int main() {
     cout << "You steel yourself and step into the shadowed entrance. \n";
 
 
-    //Game loop - Tells player where they are and where they can go
+    // Game loop - Tells player where they are and where they can go
     while(true) {
         cout << "========================================" << endl;
         cout << "You are in the " << currentLocation->getName() << endl;
         cout << currentLocation->getDescription() << endl;
 
-        //Player choice
+        // Player choice
         cout << "What shall you do?:" << endl;
         for (int i = 0; i < currentLocation->getPathways().size(); i++) {
             cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
         }
+
+        
+
+        // Player interactions for locations
+        if (currentLocation == &queensChamber) {
+            cout << "Or: There is a vase in the corner of the room with the lid ajar. " << endl;
+            cout << "[" << currentLocation->getPathways().size() << "] " << "Search the vase" << endl;
+        } 
+
+
         cout << ">>>";
         cin >> userinput;
+
+        // Inputting 1 brings up the invalid message
+        
+        
+        
+        
+
+
+
+        
+        if (userinput == currentLocation->getPathways().size()) {
+
+          cout << "You open the vase to reveal a golden idol. Pocketing it, you feel it may have some importance... " << endl;
+
+
+
+        }
+       
+        
+        // King's Chamber hallway - trap with % chance of killing the player
+        // King's Chamber doorway - reference to the idol and checks the player inventory
+        
+
 
         // Ensures the program does not get stuck in a loop if an incorrect input is entered 
         if (cin.fail()) {
@@ -121,7 +155,7 @@ int main() {
         cout << "Torch durability: " << torchDurability << "% \n";
 
 
-        //Ends the game if the torch is depleted
+        // Ends the game if the torch is depleted
         if (torchDurability <= 0) {
             cout << "Your torch flickers one last time and goes out, leaving you in complete darkness. \n";
             cout << "Without light, you can no longer continue your adventure. \n";
