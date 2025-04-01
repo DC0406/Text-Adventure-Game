@@ -1,6 +1,8 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cstdlib>
+#include <ctime>
 #include "Location.h"
 using namespace std;
 
@@ -8,6 +10,8 @@ using namespace std;
 
 
 int main() {
+    srand(time(0));
+
 
     string name;
     bool hasIdol = false;
@@ -83,7 +87,18 @@ int main() {
         for (int i = 0; i < currentLocation->getPathways().size(); i++) {
             cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
         }
-
+       
+        if (currentLocation == &kingsChamberHallway) {
+            int trapChance = rand() % 4; // Generates number 0-3
+            if (trapChance == 0) {
+                cout << "As you step forward, the floor crumbles beneath you! Spikes emerge from the darkness...\n";
+                cout << "You have fallen into a deadly trap. Game Over!\n";
+                break;
+            }
+            else {
+                cout << "You carefully step around the suspicious tiles and proceed safely.\n";
+            }
+        }
         
 
         // Player interactions for locations
