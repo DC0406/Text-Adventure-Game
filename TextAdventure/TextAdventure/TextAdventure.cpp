@@ -3,11 +3,14 @@
 #include <vector>
 #include <cstdlib>
 #include <ctime>
+#include <chrono>
+#include <thread>
 #include "Location.h"
 using namespace std;
 
 
-
+void delay(int seconds);
+// Function for keeping the title on the screen throughout gameplay
 
 int main() {
     srand(time(0));
@@ -63,17 +66,23 @@ int main() {
 
     // Keeps track of the players' current location
     Location* currentLocation = &entranceChamber;
-    int userinput;
+    int userinput = -1;
 
     // Introduction
     cout << "Enter your name, brave explorer: \n";
+    delay(1.5);
     cin >> name;
-    cout << "Welcome " << name << "!";
-    cout << "\n";
+    delay(1.5);
+    cout << "Welcome " << name << "! \n";
+    delay(1.5);
     cout << "After weeks of traveling, you finally stand at the foot of the Great Pyramid. \n";
+    delay(1.5);
     cout << "The relentless desert sun beats down on you, and the pyramid seems like the only refuge. \n";
+    delay(1.5);
     cout << "Legends speak of mysteries hidden deep within these ancient stones. \n";
+    delay(1.5);
     cout << "You steel yourself and step into the shadowed entrance. \n";
+    delay(1.5);
 
 
     // Game loop - Tells player where they are and where they can go
@@ -105,31 +114,33 @@ int main() {
         if (currentLocation == &queensChamber) {
             cout << "Or: There is a vase in the corner of the room with the lid ajar. " << endl;
             cout << "[" << currentLocation->getPathways().size() << "] " << "Search the vase" << endl;
-        } 
 
+            cout << ">>>";
+            cin >> userinput;
 
-        cout << ">>>";
-        cin >> userinput;
-
-        // Inputting 1 brings up the invalid message
-        
-        
-        
-        
-
-
-
-        
-        if (userinput == currentLocation->getPathways().size()) {
-
-          cout << "You open the vase to reveal a golden idol. Pocketing it, you feel it may have some importance... " << endl;
-
-
-
+            if (userinput == currentLocation->getPathways().size()) {
+                if (hasIdol) {
+                    cout << "You remove the lid and peer into the vase, only to find it empty as you obviously have already taken the idol." << endl;
+                }
+                else {
+                    cout << "You open the vase to reveal a golden idol. Pocketing it, you feel it may have some importance... " << endl;
+                }
+                
+                hasIdol = true;
+                system("pause");
+                system("cls");
+                continue;
+            }
         }
-       
+        else {
+            cout << ">>>";
+            cin >> userinput;
+        }
+
+
+    
         
-        // King's Chamber hallway - trap with % chance of killing the player
+        // Make win condition - "Congratulations " + name + " You win, enjoy your new-found riches! Game over."
         // King's Chamber doorway - reference to the idol and checks the player inventory
         
 
@@ -141,28 +152,20 @@ int main() {
             system("cls");
             cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n";
             cout << "What shall you do?:" << endl;
-            for (int i = 0; i < currentLocation->getPathways().size(); i++) {
-                cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
-            }
-            cout << ">>>";
-            cin >> userinput;
             continue;
-        }
-
-        if (userinput >= 0 && userinput < currentLocation->getPathways().size()) {
+        } 
+        else if (userinput >= 0 && userinput < currentLocation->getPathways().size()) {
             currentLocation = currentLocation->getPathways()[userinput];
             system("cls");
         }
-        // if the player inputs an incorrect number/letter
-        else {
+        else {  // if the player inputs an incorrect number/letter
             system("cls");
             cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n" << endl;
             cout << "What shall you do?:" << endl;
-            for (int i = 0; i < currentLocation->getPathways().size(); i++) {
-                cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
-            }
-            cout << ">>>";
-            cin >> userinput;
+
+            continue;
+
+            
         }
 
 
@@ -179,7 +182,7 @@ int main() {
         }
 
 
-        
+       
         
         
 
@@ -192,7 +195,9 @@ int main() {
     return 0;
 }
 
-
+ void delay(int seconds) {
+            this_thread::sleep_for(chrono::seconds(seconds));
+        }
 
 
 
