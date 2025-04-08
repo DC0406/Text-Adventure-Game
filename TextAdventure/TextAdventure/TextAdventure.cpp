@@ -4,12 +4,14 @@
 #include <cstdlib>
 #include <ctime>
 #include <chrono>
+#include <conio.h>
 #include <thread>
 #include <limits>
 #include "Location.h"
 
 using namespace std;
 
+void titleText();
 void delay(int seconds);
 bool hasIdol = false;
 
@@ -18,34 +20,20 @@ int main() {
     string name;
     int torchDurability = 100;
 
-    // Title Art
-    cout << ".....                                                ..       .x+=:.                                    s                                  ....      ..\n";
-    cout << " .H8888888h.  ~-.                                  . uW8\"        z`    ^%                    oec :         :8      .uef^\"                    +^\"\"888h. ~\"888h     .uef^\"                                                       .uef^\"    \n";
-    cout << " 888888888888x  `>        u.      ..    .     :    `t888            .   <k           u.     @88888        .88    :d88E                      8X.  ?8888X  8888f  :d88E                      .u    .                      u.   :d88E       \n";
-    cout << "X~     `?888888hx~  ...ue888b   .888: x888  x888.   8888   .      .@8Ned8\"     ...ue888b    8\"*88%       :888ooo `888E            .u       '888x  8888X  8888~  `888E             u      .d88B :@8c        u      ...ue888b  `888E       \n";
-    cout << "'      x8.^\"*88*\"   888R Y888r ~`8888~'888X`?888f`  9888.z88N   .@^%8888\"      888R Y888r   8b.        -*8888888  888E .z8k    ud8888.     '88888 8888X   \"88x:  888E .z8k     us888u.  =\"8888f8888r    us888u.   888R Y888r  888E .z8k  \n";
-    cout << " `-:- X8888x        888R I888>   X888  888X '888>   9888  888E x88:  `)8b.     888R I888>  u888888>      8888     888E~?888L :888'8888.     `8888 8888X  X88x.   888E~?888L .@88 \"8888\"   4888>'88\"  .@88 \"8888\"  888R I888>  888E~?888L \n";
-    cout << "      488888>       888R I888>   X888  888X '888>   9888  888E 8888N=*8888     888R I888>   8888R        8888     888E  888E d888 '88%\"       `*` 8888X '88888X  888E  888E 9888  9888    4888> '    9888  9888   888R I888>  888E  888E \n";
-    cout << "    .. `\"88*        888R I888>   X888  888X '888>   9888  888E  %8\"    R88     888R I888>   8888P        8888     888E  888E 8888.+ ~`...8888X  \"88888  888E  888E 9888  9888    4888>      9888  9888   888R I888>  888E  888E \n";
-    cout << "  x88888nX\"      . u8888cJ888    X888  888X '888>   9888  888E   @8Wou 9%     u8888cJ888    *888>       .8888Lu=  888E  888E 8888L            x8888888X.   `%8\"  888E  888E 9888  9888   .d888L .+   9888  9888  u8888cJ888   888E  888E \n";
-    cout << " !\"*8888888n..  :   \"*888*P\"    \"*88%\"\"*88\" '888!` .8888  888\" .888888P`       \"*888*P\"     4888        ^%888*    888E  888E '8888c. .+      '%\"*8888888h.   \"   888E  888E 9888  9888   ^\"8888*\"    9888  9888   \"*888*P\"    888E  888E \n";
-    cout << "'    \"*88888888*      'Y\"         `~    \"    `\"`    `%888*%\"   `   ^\"F           'Y\"        '888          'Y\"    m888N= 888>  \"88888%        ~    888888888!`   m888N= 888> \"888*\"\"888\"     \"Y\"      \"888*\"\"888\"    'Y\"      m888N= 888> \n";
-    cout << "        ^\"***\"`                                        \"`                                    88R                  `Y\"   888     \"YP'              X888^\"\"\"       `Y\"   888   ^Y\"   ^Y'                ^Y\"   ^Y'               `Y\"   888  \n";
-    cout << "                                                                                             88>                       J88\"                       `88f                J88\"                                                         J88\"  \n";
-    cout << "                                                                                             48                        @%                          88                 @%                                                           @%    \n";
-    cout << "                                                                                             '8                      :\"                            \"\"               :\"                                                           :\"       \n";
-    cout << "Welcome to the Pyramid Adventure!\n";
+    // Title Art Function
+    titleText();                                                                                           
+    
 
     // Locations
-    Location entranceChamber("Entrance Chamber", "A shrill cold passes through you, chilling you to the bones.", "Go to the Entrance Chamber");
-    Location queensChamber("Queen's Chamber", "You traverse a narrow passageway... whispers of royalty fill the air.", "Go to the Queen's Chamber.");
-    Location grandGallery("Grand Gallery", "Towering walls echo ancient footsteps. Awe surrounds you.", "Go to the Grand Gallery.");
-    Location subterraneanChamber("Subterranean Chamber", "You descend deep. It feels like something ancient is watching...", "Go to the Subterranean Chamber.");
-    Location kingsChamberHallway("Hallway to King's Chamber", "The floor tiles look off... Could be a trap.", "Go to the hallway to the King's Chamber.");
-    Location kingsChamberDoor("Doorway to King's Chamber", "A pedestal awaits. Did something from the Queen’s Chamber fit here?", "Go to the doorway of the King's Chamber.");
-    Location kingsChamber("King's Chamber", "The door opens revealing mounds of treasure!", "Enter the King's Chamber.");
+    Location entranceChamber("Entrance Chamber.", "A shrill cold passes through you, chilling you to the bones.", "Go to the Entrance Chamber");
+    Location queensChamber("Queen's Chamber.", "You traverse a narrow passageway, whispers of royalty fill the air.", "Go to the Queen's Chamber.");
+    Location grandGallery("Grand Gallery.", "Towering walls echo ancient footsteps. Awe surrounds you.", "Go to the Grand Gallery.");
+    Location subterraneanChamber("Subterranean Chamber.", "You descend deep. It feels like something ancient is watching.", "Go to the Subterranean Chamber.");
+    Location kingsChamberHallway("hallway to King's Chamber.", "The floor tiles look off, could be a trap.", "Go to the hallway to the King's Chamber.");
+    Location kingsChamberDoor("doorway to King's Chamber.", "A pedestal awaits.", "Go to the doorway of the King's Chamber.");
+    Location kingsChamber("King's Chamber.", "The door opens revealing mounds of treasure!", "Enter the King's Chamber.");
 
-    // Connect locations
+    // Pathways
     entranceChamber.addPathway(queensChamber);
     entranceChamber.addPathway(grandGallery);
     entranceChamber.addPathway(subterraneanChamber);
@@ -61,15 +49,25 @@ int main() {
 
     Location* currentLocation = &entranceChamber;
     int userinput = -1;
+    int keypressInp;
 
     // Intro
-    cout << "Enter your name, brave explorer: ";
+    cout << "Enter your name, brave explorer!:  \n";
     delay(1.5);
     cin >> name;
     delay(1.5);
-    cout << "Welcome " << name << "! \n";
+    cout << "Welcome, " << name << " to... \n";
+    delay(2);
+    cout << "Tombs Of The Pharaoh! \n";
     delay(1.5);
-    cout << "After weeks of traveling, you finally stand at the foot of the Great Pyramid. \n";
+    cout << "Your objective is to navigate the perilious pyramid and make it out alive with the treasure. \n";
+    delay(1.5);
+    cout << "Press ANY KEY to continue, if you dare: \n";
+    keypressInp = _getch();
+    system("cls");
+    titleText();
+    delay(1);
+    cout << "After weeks of travelling, you finally stand at the foot of the Great Pyramid. \n";
     delay(1.5);
     cout << "The relentless desert sun beats down on you, and the pyramid seems like the only refuge. \n";
     delay(1.5);
@@ -84,7 +82,7 @@ int main() {
         cout << "You are in the " << currentLocation->getName() << "\n";
         cout << currentLocation->getDescription() << "\n";
 
-        // Show options
+        // Options
         for (int i = 0; i < currentLocation->getPathways().size(); i++) {
             cout << "[" << i << "] " << currentLocation->getPathways()[i]->getFarDescription() << "\n";
         }
@@ -96,10 +94,11 @@ int main() {
         cout << ">>> ";
         cin >> userinput;
 
+        // Prevents the program looping infinitely upon incorrect input
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            cout << "Invalid input. Try again.\n";
+            cout << "Invalid input. Perhaps you should choose one of the options presented.\n";
             continue;
         }
 
@@ -114,6 +113,7 @@ int main() {
             }
             system("pause");
             system("cls");
+            titleText();
             continue;
         }
 
@@ -124,19 +124,21 @@ int main() {
             // Check King's Chamber access
             if (currentLocation == &kingsChamberDoor && nextLocation == &kingsChamber) {
                 if (!hasIdol) {
-                    cout << "You need a sacred idol to enter. Maybe the Queen’s Chamber?\n";
+                    cout << "You need a sacred idol to enter. Maybe the Queen's Chamber?\n";
                     system("pause");
                     system("cls");
+                    titleText();
                     continue;
                 }
                 else {
                     cout << "The idol glows... You place it on the pedestal. The door opens.\n";
                     system("pause");
                     system("cls");
+                    titleText();
                 }
             }
 
-            // Entering King’s Chamber is the win
+            // Entering King’s Chamber
             if (nextLocation == &kingsChamber) {
                 cout << nextLocation->getDescription() << "\n";
                 cout << "Congratulations, " << name << "! You win!\n";
@@ -145,6 +147,7 @@ int main() {
 
             currentLocation = nextLocation;
             system("cls");
+            titleText();
         }
         else {
             cout << "That path doesn’t exist. Try again.\n";
@@ -155,7 +158,7 @@ int main() {
         if (currentLocation == &kingsChamberHallway) {
             int trapChance = rand() % 4;
             if (trapChance == 0) {
-                cout << "A tile shifts under your foot… SPIKES! You fall into a trap. Game Over.\n";
+                cout << "A tile shifts under your feet. SPIKES! You fall into a trap. Game Over.\n";
                 break;
             }
             else {
@@ -169,7 +172,7 @@ int main() {
 
         if (torchDurability <= 0) {
             cout << "Your torch goes out. Darkness surrounds you.\n";
-            cout << "You can’t continue. Game Over.\n";
+            cout << "Without any light you can’t continue. Game Over.\n";
             break;
         }
 
@@ -179,10 +182,34 @@ int main() {
     return 0;
 }
 
-// Sleep function
+// Delay
 void delay(int seconds) {
     this_thread::sleep_for(chrono::seconds(seconds));
 }
 
 
+
+
+// Function for title text to be called
+void titleText() {
+
+
+    cout << ".....                                                ..       .x+=:.                                    s                                  ....      ..\n";
+    cout << " .H8888888h.  ~-.                                  . uW8\"        z`    ^%                    oec :         :8      .uef^\"                    +^\"\"888h. ~\"888h     .uef^\"                                                       .uef^\"    \n";
+    cout << " 888888888888x  `>        u.      ..    .     :    `t888            .   <k           u.     @88888        .88    :d88E                      8X.  ?8888X  8888f  :d88E                      .u    .                      u.   :d88E       \n";
+    cout << "X~     `?888888hx~  ...ue888b   .888: x888  x888.   8888   .      .@8Ned8\"     ...ue888b    8\"*88%       :888ooo `888E            .u       '888x  8888X  8888~  `888E             u      .d88B :@8c        u      ...ue888b  `888E       \n";
+    cout << "'      x8.^\"*88*\"   888R Y888r ~`8888~'888X`?888f`  9888.z88N   .@^%8888\"      888R Y888r   8b.        -*8888888  888E .z8k    ud8888.     '88888 8888X   \"88x:  888E .z8k     us888u.  =\"8888f8888r    us888u.   888R Y888r  888E .z8k  \n";
+    cout << " `-:- X8888x        888R I888>   X888  888X '888>   9888  888E x88:  `)8b.     888R I888>  u888888>      8888     888E~?888L :888'8888.     `8888 8888X  X88x.   888E~?888L .@88 \"8888\"   4888>'88\"  .@88 \"8888\"  888R I888>  888E~?888L \n";
+    cout << "      488888>       888R I888>   X888  888X '888>   9888  888E 8888N=*8888     888R I888>   8888R        8888     888E  888E d888 '88%\"       `*` 8888X '88888X  888E  888E 9888  9888    4888> '    9888  9888   888R I888>  888E  888E \n";
+    cout << "    .. `\"88*        888R I888>   X888  888X '888>   9888  888E  %8\"    R88     888R I888>   8888P        8888     888E  888E 8888.+ ~`...8888X  \"88888  888E  888E 9888  9888    4888>      9888  9888   888R I888>  888E  888E \n";
+    cout << "  x88888nX\"      . u8888cJ888    X888  888X '888>   9888  888E   @8Wou 9%     u8888cJ888    *888>       .8888Lu=  888E  888E 8888L            x8888888X.   `%8\"  888E  888E 9888  9888   .d888L .+   9888  9888  u8888cJ888   888E  888E \n";
+    cout << " !\"*8888888n..  :   \"*888*P\"    \"*88%\"\"*88\" '888!` .8888  888\" .888888P`       \"*888*P\"     4888        ^%888*    888E  888E '8888c. .+      '%\"*8888888h.   \"   888E  888E 9888  9888   ^\"8888*\"    9888  9888   \"*888*P\"    888E  888E \n";
+    cout << "'    \"*88888888*      'Y\"         `~    \"    `\"`    `%888*%\"   `   ^\"F           'Y\"        '888          'Y\"    m888N= 888>  \"88888%        ~    888888888!`   m888N= 888> \"888*\"\"888\"     \"Y\"      \"888*\"\"888\"    'Y\"      m888N= 888> \n";
+    cout << "        ^\"***\"`                                        \"`                                    88R                  `Y\"   888     \"YP'              X888^\"\"\"       `Y\"   888   ^Y\"   ^Y'                ^Y\"   ^Y'               `Y\"   888  \n";
+    cout << "                                                                                             88>                       J88\"                       `88f                J88\"                                                         J88\"  \n";
+    cout << "                                                                                             48                        @%                          88                 @%                                                           @%    \n";
+    cout << "                                                                                             '8                      :\"                            \"\"               :\"                                                           :\"       \n";
+
+
+}
 
