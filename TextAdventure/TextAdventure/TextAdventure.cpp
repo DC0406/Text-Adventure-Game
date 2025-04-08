@@ -5,21 +5,18 @@
 #include <ctime>
 #include <chrono>
 #include <thread>
+#include <limits>
 #include "Location.h"
+
 using namespace std;
 
-
 void delay(int seconds);
-// Function for keeping the title on the screen throughout gameplay
+bool hasIdol = false;
 
 int main() {
     srand(time(0));
-
-
     string name;
-    bool hasIdol = false;
-
-    int torchDurability = 100; // Torch durability
+    int torchDurability = 100;
 
     // Title Art
     cout << ".....                                                ..       .x+=:.                                    s                                  ....      ..\n";
@@ -37,18 +34,18 @@ int main() {
     cout << "                                                                                             88>                       J88\"                       `88f                J88\"                                                         J88\"  \n";
     cout << "                                                                                             48                        @%                          88                 @%                                                           @%    \n";
     cout << "                                                                                             '8                      :\"                            \"\"               :\"                                                           :\"       \n";
+    cout << "Welcome to the Pyramid Adventure!\n";
 
     // Locations
-    Location entranceChamber = Location("Entrance Chamber", "A shrill cold passes through you, chilling you to the bones.", "Go to the Entrance Chamber");
-    Location queensChamber = Location("Queen's Chamber", "You traverse a narrow passageway leading to the Queen's Chamber, the air is thick with mystery and the walls seem to whisper secrets of ancient royalty.", "Go to the Queen's Chamber.");
-    Location grandGallery = Location("Grand Gallery", "Its towering walls stretch above you, echoing the footsteps of those long gone, a sense of wonder and awe fills you.", "Go to the Grand Gallery.");
-    Location subterraneanChamber = Location("Subterranean Chamber", "You descend into the depths of the pyramid, reaching the Subterranean Chamber, it feels as though something ancient watches you from the shadows.", "Go to the Subterranean Chamber.");
-    Location kingsChamberHallway = Location("hallway to the King's Chamber", "Some of the floor tiles seem out of place, could there be a trap lying ahead?", "Go to the hallway to the King's Chamber.");
-    Location kingsChamberDoor = Location("doorway to the King's Chamber", "A pedestal is laid bare before you, you think to yourself: Was there anything in the Queen's Chamber meant for this?", "Go to the doorway of the King's Chamber.");
-    Location kingsChamber = Location("King's Chamber", "The door opens to reveal the mounds of treasure left behind by the pharaoph.", "Congratulations " + name + " You win, enjoy your new-found riches! Game over.");
+    Location entranceChamber("Entrance Chamber", "A shrill cold passes through you, chilling you to the bones.", "Go to the Entrance Chamber");
+    Location queensChamber("Queen's Chamber", "You traverse a narrow passageway... whispers of royalty fill the air.", "Go to the Queen's Chamber.");
+    Location grandGallery("Grand Gallery", "Towering walls echo ancient footsteps. Awe surrounds you.", "Go to the Grand Gallery.");
+    Location subterraneanChamber("Subterranean Chamber", "You descend deep. It feels like something ancient is watching...", "Go to the Subterranean Chamber.");
+    Location kingsChamberHallway("Hallway to King's Chamber", "The floor tiles look off... Could be a trap.", "Go to the hallway to the King's Chamber.");
+    Location kingsChamberDoor("Doorway to King's Chamber", "A pedestal awaits. Did something from the Queen’s Chamber fit here?", "Go to the doorway of the King's Chamber.");
+    Location kingsChamber("King's Chamber", "The door opens revealing mounds of treasure!", "Enter the King's Chamber.");
 
-
-    // Pathways between locations
+    // Connect locations
     entranceChamber.addPathway(queensChamber);
     entranceChamber.addPathway(grandGallery);
     entranceChamber.addPathway(subterraneanChamber);
@@ -58,18 +55,15 @@ int main() {
     grandGallery.addPathway(entranceChamber);
     subterraneanChamber.addPathway(entranceChamber);
     kingsChamberHallway.addPathway(entranceChamber);
-
     kingsChamberHallway.addPathway(kingsChamberDoor);
     kingsChamberDoor.addPathway(kingsChamberHallway);
     kingsChamberDoor.addPathway(kingsChamber);
 
-
-    // Keeps track of the players' current location
     Location* currentLocation = &entranceChamber;
     int userinput = -1;
 
-    // Introduction
-    cout << "Enter your name, brave explorer: \n";
+    // Intro
+    cout << "Enter your name, brave explorer: ";
     delay(1.5);
     cin >> name;
     delay(1.5);
@@ -84,120 +78,111 @@ int main() {
     cout << "You steel yourself and step into the shadowed entrance. \n";
     delay(1.5);
 
+    // Main game loop
+    while (true) {
+        cout << "========================================\n";
+        cout << "You are in the " << currentLocation->getName() << "\n";
+        cout << currentLocation->getDescription() << "\n";
 
-    // Game loop - Tells player where they are and where they can go
-    while(true) {
-        cout << "========================================" << endl;
-        cout << "You are in the " << currentLocation->getName() << endl;
-        cout << currentLocation->getDescription() << endl;
-
-        // Player choice
-        cout << "What shall you do?:" << endl;
+        // Show options
         for (int i = 0; i < currentLocation->getPathways().size(); i++) {
-            cout << "[" << i << "]" << " " << currentLocation->getPathways()[i]->getFarDescription() << endl;
+            cout << "[" << i << "] " << currentLocation->getPathways()[i]->getFarDescription() << "\n";
         }
-       
-        if (currentLocation == &kingsChamberHallway) {
-            int trapChance = rand() % 4; // Generates number 0-3
-            if (trapChance == 0) {
-                cout << "As you step forward, the floor crumbles beneath you! Spikes emerge from the darkness...\n";
-                cout << "You have fallen into a deadly trap. Game Over!\n";
-                break;
-            }
-            else {
-                cout << "You carefully step around the suspicious tiles and proceed safely.\n";
-            }
-        }
-        
 
-        // Player interactions for locations
         if (currentLocation == &queensChamber) {
-            cout << "Or: There is a vase in the corner of the room with the lid ajar. " << endl;
-            cout << "[" << currentLocation->getPathways().size() << "] " << "Search the vase" << endl;
-
-            cout << ">>>";
-            cin >> userinput;
-
-            if (userinput == currentLocation->getPathways().size()) {
-                if (hasIdol) {
-                    cout << "You remove the lid and peer into the vase, only to find it empty as you obviously have already taken the idol." << endl;
-                }
-                else {
-                    cout << "You open the vase to reveal a golden idol. Pocketing it, you feel it may have some importance... " << endl;
-                }
-                
-                hasIdol = true;
-                system("pause");
-                system("cls");
-                continue;
-            }
-        }
-        else {
-            cout << ">>>";
-            cin >> userinput;
+            cout << "[" << currentLocation->getPathways().size() << "] Search the vase\n";
         }
 
+        cout << ">>> ";
+        cin >> userinput;
 
-    
-        
-        // Make win condition - "Congratulations " + name + " You win, enjoy your new-found riches! Game over."
-        // King's Chamber doorway - reference to the idol and checks the player inventory
-        
-
-
-        // Ensures the program does not get stuck in a loop if an incorrect input is entered 
         if (cin.fail()) {
             cin.clear();
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            system("cls");
-            cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n";
-            cout << "What shall you do?:" << endl;
+            cout << "Invalid input. Try again.\n";
             continue;
-        } 
-        else if (userinput >= 0 && userinput < currentLocation->getPathways().size()) {
-            currentLocation = currentLocation->getPathways()[userinput];
-            system("cls");
-        }
-        else {  // if the player inputs an incorrect number/letter
-            system("cls");
-            cout << "You stand still, uncertain of which path to take. Perhaps you should choose one of the available chambers. \n" << endl;
-            cout << "What shall you do?:" << endl;
-
-            continue;
-
-            
         }
 
+        // Vase search
+        if (currentLocation == &queensChamber && userinput == currentLocation->getPathways().size()) {
+            if (hasIdol) {
+                cout << "The vase is empty. You already took the idol.\n";
+            }
+            else {
+                cout << "You find a golden idol inside the vase. You take it.\n";
+                hasIdol = true;
+            }
+            system("pause");
+            system("cls");
+            continue;
+        }
 
-        // Torch (active)
-        cout << "Torch durability: " << torchDurability << "% \n";
+        // Valid movement
+        if (userinput >= 0 && userinput < currentLocation->getPathways().size()) {
+            Location* nextLocation = currentLocation->getPathways()[userinput];
 
+            // Check King's Chamber access
+            if (currentLocation == &kingsChamberDoor && nextLocation == &kingsChamber) {
+                if (!hasIdol) {
+                    cout << "You need a sacred idol to enter. Maybe the Queen’s Chamber?\n";
+                    system("pause");
+                    system("cls");
+                    continue;
+                }
+                else {
+                    cout << "The idol glows... You place it on the pedestal. The door opens.\n";
+                    system("pause");
+                    system("cls");
+                }
+            }
 
-        // Ends the game if the torch is depleted
+            // Entering King’s Chamber is the win
+            if (nextLocation == &kingsChamber) {
+                cout << nextLocation->getDescription() << "\n";
+                cout << "Congratulations, " << name << "! You win!\n";
+                break;
+            }
+
+            currentLocation = nextLocation;
+            system("cls");
+        }
+        else {
+            cout << "That path doesn’t exist. Try again.\n";
+            continue;
+        }
+
+        // Trap check in hallway
+        if (currentLocation == &kingsChamberHallway) {
+            int trapChance = rand() % 4;
+            if (trapChance == 0) {
+                cout << "A tile shifts under your foot… SPIKES! You fall into a trap. Game Over.\n";
+                break;
+            }
+            else {
+                cout << "You avoid the traps and proceed carefully.\n";
+            }
+        }
+
+        // Torch durability
+        torchDurability -= 5;
+        cout << "Torch durability: " << torchDurability << "%\n";
+
         if (torchDurability <= 0) {
-            cout << "Your torch flickers one last time and goes out, leaving you in complete darkness. \n";
-            cout << "Without light, you can no longer continue your adventure. \n";
-            cout << "Game Over.";
+            cout << "Your torch goes out. Darkness surrounds you.\n";
+            cout << "You can’t continue. Game Over.\n";
             break;
         }
 
-
-       
-        
-        
-
-        // Reduces torch durability after each choice
-        torchDurability -= 5;
-
-        cout << "The adventure continues... \n";
-
+        cout << "The adventure continues...\n";
     }
+
     return 0;
 }
 
- void delay(int seconds) {
-            this_thread::sleep_for(chrono::seconds(seconds));
-        }
+// Sleep function
+void delay(int seconds) {
+    this_thread::sleep_for(chrono::seconds(seconds));
+}
 
 
 
