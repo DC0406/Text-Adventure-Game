@@ -148,7 +148,7 @@ int main() {
         if (userinput >= 0 && userinput < currentLocation->getPathways().size()) {
             Location* nextLocation = currentLocation->getPathways()[userinput];
 
-            // King's Chamber access check
+            // King's Chamber access check/Locked or impassable object
             if (currentLocation == &kingsChamberDoor && nextLocation == &kingsChamber) {
                 if (!hasIdol) {
                     cout << "You need to place something on the altar to enter. Maybe one of the other chambers has what you need?\n";
@@ -198,7 +198,7 @@ int main() {
             cout << "You hear a faint whisper... but no one is there.\n";
         }
 
-        // Torch durability system
+        // Torch durability system/Lose condition
         torchDurability -= 5;
         cout << "Torch durability: " << torchDurability << "%\n";
 
