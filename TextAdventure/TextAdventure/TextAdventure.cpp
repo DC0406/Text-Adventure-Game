@@ -189,7 +189,7 @@ int main() {
                 break;
             }
             else {
-                cout << "You avoid the traps and proceed carefully.\n";
+                cout << "You set off no traps and proceed carefully.\n";
             }
         }
 
