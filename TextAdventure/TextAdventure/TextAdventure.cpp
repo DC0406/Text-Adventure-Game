@@ -126,9 +126,7 @@ int main() {
             cout << "You study the ancient symbols. You feel a strange connection to the builders of this pyramid.\n";
             // Random chance for hidden treasure
             if (!hasFoundHiddenTreasure && (rand() % 5 == 0)) {
-                cout << "Behind a loose brick, you find a hidden pouch of emeralds! (+10% torch durability)\n";
-                torchDurability += 10;
-                if (torchDurability > 100) torchDurability = 100;
+                cout << "Behind a loose brick, you find a hidden pouch of emeralds!\n";
                 hasFoundHiddenTreasure = true;
             }
             system("pause");
@@ -137,7 +135,7 @@ int main() {
             continue;
         }
         else if (currentLocation == &subterraneanChamber && userinput == currentLocation->getPathways().size()) {
-            cout << "You approach the wall crack cautiously. Inside, you find an old but functioning torch! (+15% torch durability)\n";
+            cout << "You approach the crack in the wall cautiously. Inside, you find a set of flint and steel! (+15% torch durability)\n";
             torchDurability += 15;
             if (torchDurability > 100) torchDurability = 100;
             system("pause");
@@ -153,7 +151,7 @@ int main() {
             // King's Chamber access check
             if (currentLocation == &kingsChamberDoor && nextLocation == &kingsChamber) {
                 if (!hasIdol) {
-                    cout << "You need a sacred idol to enter. Maybe the Queen's Chamber?\n";
+                    cout << "You need to place something on the altar to enter. Maybe one of the other chambers has what you need?\n";
                     system("pause");
                     system("cls");
                     titleText();
@@ -179,7 +177,7 @@ int main() {
             titleText();
         }
         else {
-            cout << "That path doesn’t exist. Try again.\n";
+            cout << "That path doesn't exist. Try again.\n";
             continue;
         }
 
@@ -195,7 +193,7 @@ int main() {
             }
         }
 
-        // Creepy events in Subterranean Chamber
+        // Event in Subterranean Chamber
         if (currentLocation == &subterraneanChamber && rand() % 6 == 0) {
             cout << "You hear a faint whisper... but no one is there.\n";
         }
@@ -225,9 +223,9 @@ void delay(int seconds) {
     this_thread::sleep_for(chrono::seconds(seconds));
 }
 
-// Title Art
+// Title Art Function
 void titleText() {
-    // Function for title text to be called
+    
     
 
 
